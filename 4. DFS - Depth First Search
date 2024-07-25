@@ -1,0 +1,31 @@
+Movement of Direction ->->->->-> - Unidirectional
+
+https://www.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
+
+void DFS(unordered_map<int, vector<int>> adj, int u, vector<bool> &visited, vector<int> &result){
+       //check for visited
+       if(visited[u] == true){
+           return;
+       }
+       else{
+           visited[u] = true;
+           result.push_back(u);
+           for(int &v : adj[u]){
+               if(visited[v] == false){
+                   DFS(adj, v, visited, result);
+               }
+           }
+       }
+    }
+    vector<int> dfsOfGraph(int nodes, vector<int> mp[]) {
+        unordered_map<int, vector<int>> adj;
+        for(int u=0; u<nodes; u++){
+            for(auto v = mp[u].begin(); v != mp[u].end(); v++){
+                adj[u].push_back(*v);
+            }
+        }
+        vector<int> result;
+        vector<bool> visited(nodes, false);   //to check if a node is visited or not
+        DFS(adj, 0, visited, result);
+        return result;
+    }
