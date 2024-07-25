@@ -1,5 +1,6 @@
 https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
 
+Using Priority_Quene
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int source){
         priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
         vector<int> result(V, INT_MAX);
@@ -15,6 +16,34 @@ https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-mat
                 if(distance + adjDist < result[adjNode]){
                     result[adjNode] = distance + adjDist;
                     pq.push({distance + adjDist, adjNode});
+                }
+            }
+        }
+        return result;
+    }
+
+Using Set
+    vector <int> dijkstra(int V, vector<vector<int>> adj[], int source)
+    {
+        set<pair<int, int>> st;
+        vector<int> result(V, INT_MAX);
+        result[source] = 0;
+        st.insert({0, source});
+        while(!st.empty()){
+            auto &it = *st.begin();
+            int distance = it.first;
+            int node = it.second;
+            st.erase(it);
+            for(auto &vec : adj[node]){
+                int adjNode = vec[0];
+                int adjDist = vec[1];
+                if(distance + adjDist < result[adjNode]){
+                    //here is the only change
+                    if(result[adjNode] != INT_MAX){
+                        st.erase({result[adjNode], adjNode});
+                    }
+                    result[adjNode] = distance + adjDist;
+                    st.insert({distance + adjDist, adjNode});
                 }
             }
         }
