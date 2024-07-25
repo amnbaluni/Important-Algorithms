@@ -1,0 +1,33 @@
+Multidirectional - Use Queue here
+Level Wise Traversal
+𝐖𝐞 𝐮𝐬𝐞 𝐁𝐅𝐒 𝐭𝐨 𝐟𝐢𝐧𝐝 𝐬𝐡𝐨𝐫𝐭𝐞𝘀𝘁 𝐩𝐚𝐭𝐡 𝐢𝐧 𝐚 𝐠𝐫𝐚𝐩𝐡 𝐨r 𝐚 𝐭𝐫𝐞𝐞
+
+https://www.geeksforgeeks.org/problems/bfs-traversal-of-graph/1
+
+void BFS(unordered_map<int, vector<int>> adj, int u, vector<bool> &visited, vector<int> &result){
+        queue<int> q;
+        q.push(u);
+        visited[u] = true;
+        result.push_back(u);
+        while(!q.empty()){
+            int front = q.front();
+            q.pop();
+            for(int &v : adj[front]){
+                visited[v] = true;
+                q.push(v);
+                result.push_back(v);
+            }
+        }
+    }
+    vector<int> bfsOfGraph(int nodes, vector<int> mp[]) {
+        unordered_map<int, vector<int>> adj;
+        for(int u=0; u<nodes; u++){
+            for(auto v = mp[u].begin(); v != mp[u].end(); v++){
+                adj[u].push_back(*v);
+            }
+        }
+        vector<int> result;
+        vector<bool> visited(nodes, false);   //to check if a node is visited or not
+        BFS(adj, 0, visited, result);
+        return result;
+    }
