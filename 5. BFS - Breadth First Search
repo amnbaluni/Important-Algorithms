@@ -4,6 +4,7 @@ Level Wise Traversal
 
 https://www.geeksforgeeks.org/problems/bfs-traversal-of-graph/1
 
+TC - O(E+V)
 void BFS(unordered_map<int, vector<int>> adj, int u, vector<bool> &visited, vector<int> &result){
         queue<int> q;
         q.push(u);
