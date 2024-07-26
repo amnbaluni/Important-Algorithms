@@ -1,0 +1,42 @@
+1. Inorder Traversal = Left -> Root -> Right
+void inorderTraversal(Node* root) {
+    // Base case: if the current node is null, return
+    if (root == NULL)
+        return;
+    // Recur on the left subtree
+    inorderTraversal(root->left);
+    // Visit the current node
+    cout << root->data << " ";
+    // Recur on the right subtree
+    inorderTraversal(root->right);
+}
+Time Complexity: O(N)
+
+2. Preorder traversal = Root -> Left -> Right
+void preorderTraversal(Node* root) {
+    // Base case: if the current node is null, return
+    if (root == nullptr)
+        return;
+    // Visit the current node
+    cout << root->data << " ";
+    // Recur on the left subtree
+    preorderTraversal(root->left);
+    // Recur on the right subtree
+    preorderTraversal(root->right);
+} 
+TC - O(N)
+
+3. Postorder traversal = Left -> Right -> Root
+void postorderTraversal(Node* node) {
+    // Base case: if the current node is null, return
+    if (node == nullptr)
+        return;
+    // Recur on the left subtree
+    postorderTraversal(node->left);
+    // Recur on the right subtree
+    postorderTraversal(node->right);
+    // Visit the current node
+    cout << node->data << " ";
+}
+TC - O(N)
+
