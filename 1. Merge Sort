@@ -1,5 +1,6 @@
 Merge sort is a sorting algorithm that follows the divide-and-conquer approach
 
+TC - O(n.logn)
 #include <bits/stdc++.h>
 using namespace std;
 
