@@ -1,3 +1,5 @@
+Single source shortest path algorithm that determines the shortest path between a given source vertex and every other vertex in a graph.
+
 https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
 
 Using Priority_Quene
