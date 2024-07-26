@@ -1,0 +1,56 @@
+Bellman-Ford is a single source shortest path algorithm that determines the shortest path between a given source vertex and every other vertex in a graph. 
+This algorithm can be used on both weighted and unweighted graphs. Although Bellman-Ford is slower than Dijkstra’s algorithm, it is capable of handling graphs with negative edge weights, 
+which makes it more versatile. Bellman-Ford is also capable of detecting negative cycles. By relaxing edges N-1 times, the Bellman-Ford algorithm ensures that the distance estimates for all 
+vertices have been updated to their optimal values, assuming the graph doesn’t contain any negative-weight cycles reachable from the source vertex.
+For for only directed graph.
+
+To detect negative Cycle - Relax the graph (V-1) times, then relax again -> agar dono mein different ans aya ya koi update aya that means negative cycle is present.
+
+What are the differences between Bellman Ford’s and Dijkstra’s algorithms?
+              Dijkstra                                       Bellman Ford
+----------------------------------------------------------------------------------------
+Works both in Directec, Undirected  |  Works in Directed & Undirected (with no -ve edge)
+May or may not work when there is   |  Work when there is negative weight edge (directed)
+negative weight edge                | 
+Can't be apply in -ve cycle         |  Helps to detect -ve cycle
+Less overheads -> Less TC           |  More overheads -> High TC
+
+Link - https://www.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/1
+
+Time Complexity: O(V*E).
+Auxiliary Space: O(V)
+
+vector<int> bellman_ford(int V, vector<vector<int>>& edges, int source) {
+        vector<int> result(V, 1e8);
+        result[source] = 0;
+        
+        for(int count = 1; count<=V-1; count++) {
+            
+            for(auto &edge : edges) {
+                
+                int u = edge[0];
+                int v = edge[1];
+                int w = edge[2];
+                
+                if(result[u] != 1e8 && result[u] + w < result[v]) {
+                    result[v] = result[u] + w;
+                }
+                
+            }
+            
+        }
+        
+        //Now detect negative cycle
+        for(auto &edge : edges) {
+            
+            int u = edge[0];
+                int v = edge[1];
+                int w = edge[2];
+                
+                if(result[u] != 1e8 && result[u] + w < result[v]) {
+                    return {-1};
+                }
+        }
+        
+        return result;
+    }
