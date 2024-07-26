@@ -26,7 +26,7 @@ Using Priority_Quene
 
 TC - V*(logV + E.logV)
    - V*logv(1 + E)
-   - V*E*logV
+   - V*E*logV   [if E=V-1, then V*(V-1)*logV = V^2.logV]
 
 Using Set
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int source)
