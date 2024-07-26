@@ -8,21 +8,25 @@ Using Priority_Quene
         vector<int> result(V, INT_MAX);
         result[source] = 0;
         pq.push({0, source});
-        while(!pq.empty()){
+        while(!pq.empty()){   //O(V)
             int distance = pq.top().first;
-            int node = pq.top().second;
+            int node = pq.top().second;   //O(logV)
             pq.pop();
-            for(auto &vec : adj[node]){
+            for(auto &vec : adj[node]){  //O(E)
                 int adjNode = vec[0];
                 int adjDist = vec[1];
                 if(distance + adjDist < result[adjNode]){
                     result[adjNode] = distance + adjDist;
-                    pq.push({distance + adjDist, adjNode});
+                    pq.push({distance + adjDist, adjNode});  //O(logV)
                 }
             }
         }
         return result;
     }
+
+TC - V*(logV + E.logV)
+   - V*logv(1 + E)
+   - V*E*logV
 
 Using Set
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int source)
@@ -51,3 +55,6 @@ Using Set
         }
         return result;
     }
+
+TC = O(ElogV)
+SC = O(N+E)
