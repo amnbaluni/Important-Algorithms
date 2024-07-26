@@ -1,5 +1,5 @@
 Movement of Direction ->->->->-> - Unidirectional
-
+TC - O(E+V)
 https://www.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
 
 void DFS(unordered_map<int, vector<int>> adj, int u, vector<bool> &visited, vector<int> &result){
