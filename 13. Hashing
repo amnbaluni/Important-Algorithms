@@ -1,0 +1,101 @@
+https://takeuforward.org/hashing/hashing-maps-time-complexity-collisions-division-rule-of-hashing-strivers-a2z-dsa-course/
+
+Given an array of integers: [1, 2, 1, 3, 2] and we are given some queries: [1, 3, 4, 2, 10]. For each query, we need to find out how many times the number appears in the array. For example, 
+if the query is 1 our answer would be 2, and if the query is 4 the answer will be 0. 
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+
+    int n;
+    cin >> n;
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    //precompute:
+    int hash[13] = {0};
+    for (int i = 0; i < n; i++) {
+        hash[arr[i]] += 1;
+    }
+
+    int q;
+    cin >> q;
+    while (q--) {
+        int number;
+        cin >> number;
+        // fetching:
+        cout << hash[number] << endl;
+    }
+    return 0;
+}
+Input: 
+5
+1 3 2 1 3
+5
+1 4 2 3 12
+
+Output: 
+2
+0
+1
+2
+0
+Inside main function, max size of Integer array - 10^6                         Inside main function, max size of boolean array - 10^7  
+Inside main function, max size of Integer array - 10^7                         Inside main function, max size of boolean array - 10^8  
+**********************************************************************************************************************************************************************
+
+Character Hashing:
+Given the string: “abcdabefc” we are given some queries: [a, c, z]. For each query, we need to find out how many times the character appears in the string. For example, if the query is 
+‘a’ our answer would be 2, and if the query is ‘z’ the answer will be 0. 
+int main() {
+
+    string s;
+    cin >> s;
+
+    //precompute:
+    int hash[26] = {0};
+    for (int i = 0; i < s.size(); i++) {
+        hash[s[i] - 'a']++;
+    }
+
+    int q;
+    cin >> q;
+    while (q--) {
+        char c;
+        cin >> c;
+        // fetch:
+        cout << hash[c - 'a'] << endl;
+    }
+    return 0;
+}
+Input: 
+abcdabehf
+5
+a
+g
+h
+b
+c
+Output: 2
+0
+1
+2
+1
+
+Note: If we want to fetch the value of a key that does not exist in the map, the map will always return 0 in C++ and null in Java.
+
+Time complexity of map data structure:
+The total time complexity will be O(N * time taken by map data structure).
+Storing(i.e. insertion) and fetching(i.e. retrieval) in a C++ map, both take always O(logN) time complexity, where N = the size of the map. 
+But the unordered_map in C++ and HashMap in Java, both take O(1) time complexity to perform storing(i.e. insertion) and fetching(i.e. retrieval). Now, it is valid for the best case and 
+the average case. 
+But in the worst case, this time complexity will be O(N) for unordered_map. Now, the worst case occurs very very rarely. It almost never happens and most of the time, we will be using 
+unordered_map. 
+Note: Our first priority will be always to use unordered_map and then map. If unordered_map gives a time limit exceeded error(TLE), we will then use the map.
+
+Hashing is done using several methods. Among them, the three most common ones are
+-Division method
+-Folding method
+-Mid-Square method
