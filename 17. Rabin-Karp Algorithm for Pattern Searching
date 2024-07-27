@@ -1,6 +1,7 @@
 https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
 TC - O(m*n)
 
+To find first occurrences
 #define ll long long
 const ll MOD=1e9+7;
 class Solution {
@@ -54,3 +55,58 @@ public:
         return -1;
     }
 };
+
+
+To find multiple occurrences
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void rabinKarpAlgo(string & pattern, string & text, int q) {
+
+  int m = pattern.size();
+  int n = text.size();
+  int i, j, hash_p = 0, hash_t = 0, h = 1, d = m + n;
+
+  for (i = 0; i < m - 1; i++) {
+    h = (h * d) % q;
+  }
+
+  // Calculate hash value for pattern and text
+  for (i = 0; i < m; i++) {
+    hash_p = (pattern[i] + d * hash_p) % q;
+    hash_t = (text[i] + d * hash_t) % q;
+  }
+
+  // Find the match
+  for (i = 0; i <= n - m; i++) {
+
+    // Check the hash values of current windows of text and pattern.
+    if (hash_p == hash_t) {
+
+      for (j = 0; j < m; j++) {
+
+        if (text[i + j] != pattern[j]) break;
+      }
+
+      // if pattern == text
+      if (j == m) cout << "Pattern is found at index : " << i << "\n";
+    }
+
+    // Calculate the hash value for next window : adding trailing digit 
+   //and remove leading digit
+    if (i < n - m) {
+      hash_t = (d * (hash_t - text[i] * h) + text[i + m]) % q;
+
+      //converting negative value of hash_t to positive.
+      if (hash_t < 0) hash_t = (hash_t + q);
+    }
+  }
+}
+
+int main() {
+  string text = "GEEKS FOR GEEKS";
+  string pattern = "GEEK";
+  int q = 101;
+  rabinKarpAlgo(pattern, text, q);
+}
