@@ -1,0 +1,31 @@
+Matrix Exponentiation is a technique used to calculate a matrix raised to a power efficiently, that is in logN time.
+TC = N^3
+
+vector<vector<int>> multiply2Matrix(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+    int n = A.size(); // assuming A and B are square matrices
+    vector<vector<int>> C(n, vector<int>(n, 0));
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            for (int k = 0; k < n; ++k) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    return C;
+}
+vector<vector<int>> matrixExpo(vector<vector<int>>& A, int x){
+    //base case
+    if(x == 1){
+        return A;
+    } 
+    vector<vector<int>> resultBy2 = matrixExpo(A, x/2);
+    vector<vector<int>> result = multiply2Matrix(resultBy2, resultBy2);
+    if(x%2 != 0){   //x is odd
+        multiply2Matrix(result, A);
+    }
+    else{
+        return result;
+    }
+}
