@@ -1,0 +1,116 @@
+Find the nearest smaller numbers on left side in an array
+vector<int> printPrevSmaller(vector<int> &arr, int n)
+{   
+    vector<int> ans(arr.size(), -1);
+    // Create an empty stack
+    stack<int> st;
+ 
+    // Traverse all array elements
+    for (int i=1; i<n; i++)
+    {
+        // Keep removing top element from st while the top
+        // element is greater than or equal to arr[i]
+        while (!st.empty() && st.top() >= arr[i])
+            st.pop();
+        if (st.size() == 0) 
+            ans.push_back(-1);
+
+ 
+        // If all elements in st were greater than arr[i]
+        else  //Else print the nearest smaller element
+            ans.push_back(st.top());
+ 
+        // Push this element
+        st.push(arr[i]);
+    }
+}
+-------------------------------------------------------------------------------------------------------------------
+Find the nearest smaller numbers on right side in an array
+vector<int> findNextSmallerElement(const std::vector<int>& arr) {
+// declaring vector for storing next smaller element
+	vector<int> result(arr.size(), -1); 
+
+// declaring a stack
+	stack<int> st; 
+
+// iterating through array 
+	for (int i = arr.size()-1; i >= 0; i--) {
+	    if(st.size() == 0){
+          result.push_back(-1);
+          st.push(i);
+        }
+      else if(st.size() > 0){
+        while (!st.empty() && arr[i] < arr[st.top()]){
+          st.pop();
+        }
+        if(st.size()==0){
+          result.push_back(-1);
+        }
+        else{
+          result.push_back(arr[st.top()]);
+        }
+        st.push(i);
+      }
+	  	
+	}
+  reverse(result.begin(), result.end());
+	return result;
+}
+----------------------------------------------------------------------------------------------------
+Find the nearest greater numbers on left side in an array
+vector<int> prevGreater(vector<int> &arr, int n)
+{
+    vector<int> ans(n);
+    // Create a stack and push index of first element 
+    // to it
+    stack<int> s;
+    s.push(arr[0]);
+     
+    // Previous greater for first element is always -1.
+    ans[0] = -1;
+ 
+    // Traverse remaining elements
+    for (int i = 1; i < n; i++) {
+ 
+        // Pop elements from stack while stack is not empty 
+        // and top of stack is smaller than arr[i]. We 
+        // always have elements in decreasing order in a 
+        // stack.
+        int curr = arr[i];
+        while (!s.empty() && s.top() < curr)
+            s.pop();
+ 
+        // If stack becomes empty, then no element is greater
+        // on left side. Else top of stack is previous
+        // greater.
+        if(!s.empty()){
+            ans[i] = s.top(); 
+        }
+        else{
+           ans[i] = -1;
+        }
+        s.push(curr);
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------
+Find the nearest greater numbers on right side in an array
+#include <stack>
+vector<int> nextGreaterElement(vector<int> &arr, int n) {
+  stack<int> s;
+  vector<int> ans(n);
+  for (int i = n - 1; i >= 0; i--) {
+    int curr = arr[i];
+    while (!s.empty() && s.top() <= curr) {
+      s.pop();
+    }
+    if (!s.empty()) {
+      ans[i] = s.top();
+    } 
+    else {
+      ans[i] = -1;
+    }
+    s.push(curr);
+  }
+  return ans;
+}
