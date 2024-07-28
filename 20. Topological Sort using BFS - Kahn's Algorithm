@@ -1,0 +1,72 @@
+https://youtu.be/uVl4ftleTes?si=u0l7jZ2ERdUm8g5f
+https://www.geeksforgeeks.org/problems/topological-sort/1
+
+Thought - Jin nodes ki indegree zero hai vo nodes topo sort mein pehle ayenge
+vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	   int indegree[V] = {0};
+	   for(int u=0; u<V; u++){
+	       for(auto v : adj[u]){
+	            indegree[v]++;
+	       }
+	   }
+	   queue<int> q;
+	   //put all vertices in queue having indgree as 0
+	   for(int i=0; i<V; i++){
+	       if(indegree[i] == 0){
+	           q.push(i);
+	       }
+	   }
+	   vector<int> topo_sort;
+	   //BFS approach
+	   while(!q.empty()){
+	       int node = q.front();
+	       q.pop();
+	       topo_sort.push_back(node);
+	       for(auto it : adj[node]){
+	           indegree[it]--;
+	           if(indegree[it] == 0){
+	               q.push(it);
+	           }
+	       }
+	   }
+	   return topo_sort;
+	}
+
+ -----------------------------------------Detect Cycle in Directed Graph using BFS----------------------------------------------
+ https://www.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1
+ bool isCyclic(int N, vector<int> adj[]) {
+	   queue<int> q;
+       vector<int> indegree(N, 0);
+       //step 1
+	   for(int u=0; u<N; u++){
+	       for(auto &v : adj[u]){
+	            indegree[v]++;
+	       }
+	   }
+       int count = 0;
+	   //put all vertices in queue having indgree as 0
+	   for(int i=0; i<N; i++){
+	       if(indegree[i] == 0){
+	           q.push(i);
+	           count++;
+	       }
+	   }
+
+	   //BFS approach
+	   while(!q.empty()){
+	       int node = q.front();
+	       q.pop();
+
+	       for(auto &it : adj[node]){
+	           indegree[it]--;
+	           if(indegree[it] == 0){
+	               q.push(it);
+	               count++;
+	           }
+	       }
+	   }
+
+	   if(count == N) return false;
+	   else return true;
+    }
