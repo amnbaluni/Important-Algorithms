@@ -1,0 +1,185 @@
+----------------------------------Longest Increasing Subsequence---------------------------------
+https://leetcode.com/problems/longest-increasing-subsequence/
+
+int solve(int n, vector<int>& arr, int currIndex, int prevIndex){
+        //base case
+        if(currIndex == n){
+            return 0;
+        }
+        //include condition
+        int take = 0;
+        if(prevIndex == -1 || arr[currIndex]>arr[prevIndex]){
+            take = 1 + solve(n, arr, currIndex+1, currIndex);
+        }
+        //exclude condition
+        int notTake = 0 + solve(n, arr, currIndex+1, prevIndex);
+        return max(take, notTake);
+    }
+    int solveMemo(int n, vector<int>& arr, int currIndex, int prevIndex, vector<vector<int>> &dp){
+        //base case
+        if(currIndex == n){
+            return 0;
+        }
+        if(dp[currIndex][prevIndex+1]!=-1){
+            return dp[currIndex][prevIndex+1];
+        }
+        //include condition
+        int take = 0;
+        if(prevIndex == -1 || arr[currIndex]>arr[prevIndex]){
+            take = 1 + solveMemo(n, arr, currIndex+1, currIndex, dp);
+        }
+        //exclude condition
+        int notTake = 0 + solveMemo(n, arr, currIndex+1, prevIndex, dp);
+        return dp[currIndex][prevIndex + 1] = max(take, notTake);
+        
+    }
+    // int solveTabu(int n, vector<int> &a){
+    //     vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
+    //     for(int currIndex=n-1; currIndex>=0; currIndex--){
+    //         for(int prevIndex=currIndex-1; prevIndex>=-1; prevIndex--){
+    //             int take = 0;
+    //             if(prevIndex == -1 || a[currIndex]>a[prevIndex]){
+    //                take = 1 + dp[currIndex+1][currIndex+1];
+    //             }
+    //            int notTake = 0 + dp[currIndex+1][prevIndex+1];
+    //            dp[currIndex][prevIndex + 1] = max(take, notTake);
+    //         }
+    //     }
+    //     return dp[0][0];
+    // }
+    int lengthOfLIS(vector<int>& nums) {
+        vector<vector<int>> dp(nums.size(), vector<int>(nums.size()+1, -1));
+        return solveMemo(nums.size(), nums, 0, -1, dp);
+    }
+
+--------------------------------------------------Longest Common Subsequence------------------------------------------
+https://leetcode.com/problems/longest-common-subsequence/
+
+Recursion
+int solve(string& text1, string& text2, int i, int j){
+        //base case
+        if(i == text1.length() || j == text2.length()){
+            return 0;
+        }
+        int ans = 0;
+        if(text1[i] == text2[j]){
+            ans = 1 + solve(text1, text2, i+1, j+1);
+        }
+        else{
+            ans = max(solve(text1, text2, i+1, j), solve(text1, text2, i, j+1));
+        }
+        return ans;
+    }
+    int longestCommonSubsequence(string text1, string text2) {
+        return solve(text1, text2, 0, 0);
+    }
+
+Recursion + Memo   TC=O(n1*n2)  SC=O(n1*n2)
+int solveMemo(string& text1, string& text2, int i, int j, vector<vector<int>> &dp){
+        //base case
+        if(i == text1.length() || j == text2.length()){
+            return 0;
+        }
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        int ans = 0;
+        if(text1[i] == text2[j]){
+            ans = 1 + solveMemo(text1, text2, i+1, j+1, dp);
+        }
+        else{
+            ans = max(solveMemo(text1, text2, i+1, j, dp), solveMemo(text1, text2, i, j+1, dp));
+        }
+        return dp[i][j] = ans;
+    }
+    int longestCommonSubsequence(string text1, string text2) {
+        int n1 = text1.length();
+        int n2 = text2.length();
+        vector<vector<int>> dp(n1+1, vector<int>(n2+1, -1));
+        return solveMemo(text1, text2, 0, 0, dp);
+    }
+
+Recursion + Tabu   TC=O(n1*n2)  SC=O(n1*n2)
+int solveTabu(string& text1, string& text2){
+        int n1 = text1.length();
+        int n2 = text2.length();
+        vector<vector<int>> dp(n1+1, vector<int>(n2+1, 0));
+        for(int i=n1-1; i>=0; i--){
+            for(int j=n2-1; j>=0; j--){
+                int ans = 0;
+                if(text1[i] == text2[j]){
+                  ans = 1 + dp[i+1][j+1];
+                }
+                else{
+                  ans = max(dp[i+1][j], dp[i][j+1]);
+                }
+                dp[i][j] = ans;
+            }
+        }
+        return dp[0][0];
+    }
+    int longestCommonSubsequence(string text1, string text2) {
+        return solveTabu(text1, text2);
+    }  
+
+
+Space Optimization  SC=O(n1) or O(n2)   TC=O(n1*n2)
+int solveTabu(string& text1, string& text2){
+        int n1 = text1.length();
+        int n2 = text2.length();
+        vector<int> curr(n2+1, 0);
+        vector<int> next(n2+1, 0);
+        for(int i=n1-1; i>=0; i--){
+            for(int j=n2-1; j>=0; j--){
+                int ans = 0;
+                if(text1[i] == text2[j]){
+                  ans = 1 + next[j+1];
+                }
+                else{
+                  ans = max(next[j], curr[j+1]);
+                }
+                curr[j] = ans;
+            }
+            next = curr;
+        }
+        return curr[0];
+    }
+    int longestCommonSubsequence(string text1, string text2) {
+        return solveTabu(text1, text2);
+    }
+
+
+Print Longest Common Subsequence
+class Solution {
+public:
+    string longestCommonSubsequence(string s1, string s2) {
+        int m = s1.size(), n = s2.size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+        
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s1[i - 1] == s2[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        
+        string lcs = "";
+        int i = m, j = n;
+        while (i > 0 && j > 0) {
+            if (s1[i - 1] == s2[j - 1]) {
+                lcs = s1[i - 1] + lcs;
+                i--;
+                j--;
+            } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                i--;
+            } else {
+                j--;
+            }
+        }
+        
+        return lcs;
+    }
+};
