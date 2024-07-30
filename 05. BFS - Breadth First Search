@@ -11,12 +11,15 @@ void BFS(unordered_map<int, vector<int>> adj, int u, vector<bool> &visited, vect
         visited[u] = true;
         result.push_back(u);
         while(!q.empty()){
-            int front = q.front();
-            q.pop();
-            for(int &v : adj[front]){
-                visited[v] = true;
-                q.push(v);
-                result.push_back(v);
+            int n = q.size();
+            while(n--){
+                int front = q.front();
+                q.pop();
+                for(int &v : adj[front]){
+                   visited[v] = true;
+                   q.push(v);
+                   result.push_back(v);
+                }  
             }
         }
     }
