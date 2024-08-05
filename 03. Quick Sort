@@ -5,43 +5,28 @@ Worst Case: O(N ^ 2)
 #include<iostream>
 using namespace std;
 
-int partition( int arr[], int start, int end) {
+int partition( int arr[], int lb, int up) {
 
-    int pivot = arr[start];  //taking a[start] as a pivot element
+    int pivot = arr[lb];  //taking a[start] as a pivot element
 
-    int cnt = 0;
-    for(int i = start+1; i<=end; i++) {
-        if(arr[i] <= pivot) {
-            cnt++;
-        }
+    int start = lb;
+    int end = ub;
+
+    while(start < end){
+         while(arr[start] < arr[pivot]){
+              start++; 
+         }
+         whiel(arr[end] > arr[pivot]){
+              end--; 
+         }
+         if(start < end){
+              swap(arr[start], arr[end]);
+         } 
     }
-
-    //place pivot at right position
-    int pivotIndex = s + cnt;
-    swap(arr[pivotIndex], arr[start]);
-
-    //left and right wala part smbhal lete h 
-    int i = start, j = end;
-
-    while(i < pivotIndex && j > pivotIndex) {
-
-        while(arr[i] <= pivot) 
-        {
-            i++;
-        }
-
-        while(arr[j] > pivot) {
-            j--;
-        }
-
-        if(i < pivotIndex && j > pivotIndex) {
-            swap(arr[i++], arr[j--]);
-        }
-
-    }
-
-    return pivotIndex;
-
+    //swap pivot and arr[end]
+    swap(arr[lb], arr[end]);
+    //return pivot location
+    return end;
 }
 
 void quickSort(int arr[], int start, int end) {
