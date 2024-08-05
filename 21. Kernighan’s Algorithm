@@ -18,12 +18,12 @@ unsigned int countSetBits(unsigned int n)
 
 Brian Kernighan’s Algorithm: O(log n)
 unsigned int countSetBits(int n)
-	{
-		unsigned int counter = 0;
-		while (n != 0) {
-            int rsbm = n & -n;     //rightmost set bit mask
-			n = n - rsbm;
-			counter++;
-		}
-		return counter;
-	}
+{
+     unsigned int counter = 0;
+     while (n != 0) {
+        int rsbm = n & -n;     //rightmost set bit mask
+        n = n - rsbm;
+        counter++;
+     }
+     return counter;
+}
