@@ -2,7 +2,7 @@ https://youtu.be/uVl4ftleTes?si=u0l7jZ2ERdUm8g5f
 https://www.geeksforgeeks.org/problems/topological-sort/1
 
 Thought - Jin nodes ki indegree zero hai vo nodes topo sort mein pehle ayenge
-vector<int> topoSort(int V, vector<int> adj[]) 
+        vector<int> topoSort(int V, vector<int> adj[]) 
 	{
 	   int indegree[V] = {0};
 	   for(int u=0; u<V; u++){
